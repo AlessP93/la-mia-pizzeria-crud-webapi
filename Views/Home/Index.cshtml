@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+@model List<Pizza>
+
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @*HEADER*@
+    <header class="container-fluid d-flex justify-content-between p-3">
+        <img src="css/img/pizza.png" alt="Immagine Pizza">
+        <span> <a>Utente</a> </span>
+    </header>
+    @*MAIN*@
+    <main class="container">
+        <div class="text-center">
+            <h1 class="display-4">Welcome to Pizza Hut</h1>
+            <div class="row">
+                <div class="col-6 text-start list-unstyled py-5">
+                    <h3>Pizze rosse:</h3>
+                    <ul>
+                        @foreach (var pizza in Model)
+                        {
+                            <li><b>@pizza.Nome:</b> @pizza.Description - @pizza.Pic - @pizza.Price €</li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-6 text-start list-unstyled py-5">
+                    <h3>Pizze bianche:</h3>
+                    <ul>
+                        @foreach (var pizza in Model)
+                        {
+                            <li><b>@pizza.Nome:</b> @pizza.Description - @pizza.Pic - @pizza.Price €</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    @*FOOTER*@
+    <footer class="container-fluid text-center">
+        <h5>Sponsored by Pizza Foods</h5>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>

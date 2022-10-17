@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+@using la_mia_pizzeria.Models
+
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @*HEADER*@
+    <header class="container-fluid d-flex justify-content-between p-3">
+        <img src="css/img/pizza.png" alt="Immagine Pizza">
+        <span> <a>Utente</a> </span>
+    </header>
+    @*MAIN*@
+    <main>
+        <div class="container py-5">
+            <a href="@Url.Action("Create","Pizza")">Crea una nuova pizza</a>
+            <h5>Lista Pizze:</h5>
+            <div class="row">
+   
+                    <ul class="d-flex flex-wrap">
+                        @foreach (Pizza pizza in Model)
+                        {
+                            <li class="col-4">
+                                <div class="text-center justify-content-between">
+                                    <div>
+                                        <img style="width:50%; height:80px" src="@pizza.Pic">
+                                    </div>
+
+                                    <b>@pizza.Nome:</b>
+                                    <span>@pizza.Description</span>
+                                    <span>@pizza.Price €</span>
+                                </div>
+                                <table>
+                                <tr>@pizza.Category.Name</tr>
+                                </table>
+
+                            <div class="text-center">
+                                <a color="white" style href="@Url.Action("Details", "pizza", new{ id = pizza.Id})">Visualizza</a>
+                                <a href="@Url.Action("Edit","Pizza", new{ id = pizza.Id})">Modifica</a>
+
+                                <form asp-controller="Pizza" asp-action="Delete" asp-route-Id="@pizza.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                    <button class="btn btn-danger" type="submit">Cancella</button>
+                                    </form>
+                                </div>
+                            </li>
+                        }              
+                    </ul>
+     
+            </div>
+        </div>
+    </main>
+
+    @*FOOTER*@
+    <footer class="container-fluid text-center">
+        <h5>Sponsored by Pizza Foods</h5>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
