@@ -1,48 +1,56 @@
-﻿@{
-    Layout = null;
-}
-@model List<Pizza>
+﻿@using la_mia_pizzeria.Models;
+
+<h1>Home page</h1>
 
 
-<head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-</head>
-<body>
-    @*HEADER*@
-    <header class="container-fluid d-flex justify-content-between p-3">
-        <img src="css/img/pizza.png" alt="Immagine Pizza">
-        <span> <a>Utente</a> </span>
-    </header>
-    @*MAIN*@
-@*    <main class="container">
-        <div class="text-center">
-            <h1 class="display-4">Welcome to Pizza Hut</h1>
+<body onload="cerca()">
+    <section class="text-center">
+        <div class="container">
+            <input class="js-search" type="text" placeholder="Cerca la pizza" />
             <div class="row">
-                <div class="col-6 text-start list-unstyled py-5">
-                    <h3>Pizze rosse:</h3>
-                    <ul>
-                        @foreach (var pizza in Model)
-                        {
-                            <li><b>@pizza.Nome:</b> @pizza.Description - @pizza.Pic - @pizza.Price €</li>
-                        }
-                    </ul>
-                </div>
-                <div class="col-6 text-start list-unstyled py-5">
-                    <h3>Pizze bianche:</h3>
-                    <ul>
-                        @foreach (var pizza in Model)
-                        {
-                            <li><b>@pizza.Nome:</b> @pizza.Description - @pizza.Pic - @pizza.Price €</li>
-                        }
-                    </ul>
-                </div>
             </div>
         </div>
-    </main>*@
-    @*FOOTER*@
-    <footer class="container-fluid text-center">
-        <h5>Sponsored by Pizza Foods</h5>
-    </footer>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    </section>
 </body>
+
+
+<script type="text/javascript">
+    const cardActor = document.querySelector(".row");
+    const actorSearch = document.querySelector(".js-search")
+    let lista;
+    actorSearch.addEventListener("keyup", cerca)
+    function cerca() {
+        let name = this.value;
+        risultati(name);
+    }
+    function risultati(name) {
+        axios.get("api/pizza/get", {
+            params: {
+                name: name
+            }
+        })
+            .then(function (response) {
+                console.log(response);
+                lista = response.data;
+                if (lista.length > 0) {
+                    cardActor.innerHTML = ""
+                    lista.forEach(pizza => {
+                        cardActor.innerHTML +=
+                            `<div class="col-4 py-2" >
+                                        <a href="/Home/Details/${pizza.id}" class="text-decoration-none text-danger card" >
+    @*<a href="@Url.Action("Details", "Home", new {Id = actor.id})" class="btn btn-danger my-3">Details*@
+                                        <div class="card bg-dark bg-gradient text-white border-2  rounded-lg" >
+                                            <span class="py-1" >Name ${pizza.name}</span>
+                                            <span class="py-1" >Surname ${pizza.surname} </span>
+                                            </div>
+                                        </a>
+                                        </div>`
+                    })
+                } else {
+                    cardActor.innerHTML = "<h1>non ci sono pizze</h1>"
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }</script>
