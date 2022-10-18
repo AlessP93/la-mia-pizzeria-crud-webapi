@@ -84,6 +84,8 @@ namespace la_mia_pizzeria.Controllers
                                         //new = nuova lista di ingredienti  ( con modello Ingredient )
             formData.Pizza.Ingredients = new List<Ingredient>();
 
+            formData.Pizza.Ingredients = db.Ingredients.Where(y => formData.SelectedIngredients.Contains(y.Id)).ToList(); // lista ingredienti
+
             db.Pizzas.Add(formData.Pizza);
             db.SaveChanges();
 

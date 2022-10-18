@@ -22,17 +22,17 @@ namespace la_mia_pizzeria.Controllers.api
 
         //api/post/get/[qualunque stringa]
         [HttpGet]
-        public IActionResult Get(string? name)
+        public IActionResult Get(string? nome)
         {
             IQueryable<Pizza> pizzas;
 
-            if (name != null)
+            if (nome != null)
             {
-                pizzas = _ctx.Pizzas.Where(pizza => pizza.Nome.ToLower().Contains(name.ToLower()));
+                pizzas = _ctx.Pizzas.Include("Category").Include("Ingredients").Where(pizza => pizza.Nome.ToLower().Contains(nome.ToLower()));
             }
             else
             {
-                pizzas = _ctx.Pizzas;
+                pizzas = _ctx.Pizzas.Include("Category").Include("Ingredients");
             }
 
             return Ok(pizzas.ToList<Pizza>());
@@ -41,7 +41,7 @@ namespace la_mia_pizzeria.Controllers.api
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Pizza pizza = _ctx.Pizzas.Where(e => e.Id == id).FirstOrDefault();
+            Pizza pizza = _ctx.Pizzas.Include("Category").Include("Ingredients").Where(e => e.Id == id).FirstOrDefault();
             //List<Actor> actors = _ctx.Actors.ToList();
             return Ok(pizza);
         }
