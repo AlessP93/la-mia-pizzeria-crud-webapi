@@ -1,6 +1,5 @@
-﻿@using la_mia_pizzeria.Models;
-
-<h1>Home page</h1>
+﻿
+@model List<Pizza>
 
 
 <body onload="cerca()">
@@ -15,39 +14,48 @@
 
 
 <script type="text/javascript">
-    const cardActor = document.querySelector(".row");
-    const actorSearch = document.querySelector(".js-search")
+    const cardPizza = document.querySelector(".row");
+    const pizzaSearch = document.querySelector(".js-search")
     let lista;
-    actorSearch.addEventListener("keyup", cerca)
+
+    pizzaSearch.addEventListener("keyup", cerca)
+
     function cerca() {
-        let name = this.value;
-        risultati(name);
-    }
-    function risultati(name) {
-        axios.get("api/pizza/get", {
+        axios.get("/api/pizza/get", { 
             params: {
-                name: name
+                nome: pizzaSearch.value
             }
         })
             .then(function (response) {
                 console.log(response);
-                lista = response.data;
-                if (lista.length > 0) {
-                    cardActor.innerHTML = ""
+                lista = response.data; //valori api
+                if (lista.length) {
+                    cardPizza.innerHTML = ""
                     lista.forEach(pizza => {
-                        cardActor.innerHTML +=
+                        let ingredienti = '';
+                        for (let i = 0; i < pizza.ingredients.length; i++) {
+                            console.log(pizza.ingredients[i].title)
+                            ingredienti += `<li>${pizza.ingredients[i].name}</li>`
+                        }
+                        cardPizza.innerHTML +=
+                    
                             `<div class="col-4 py-2" >
-                                        <a href="/Home/Details/${pizza.id}" class="text-decoration-none text-danger card" >
-    @*<a href="@Url.Action("Details", "Home", new {Id = actor.id})" class="btn btn-danger my-3">Details*@
-                                        <div class="card bg-dark bg-gradient text-white border-2  rounded-lg" >
-                                            <span class="py-1" >Name ${pizza.name}</span>
-                                            <span class="py-1" >Surname ${pizza.surname} </span>
-                                            </div>
-                                        </a>
-                                        </div>`
+                                <a class="text-decoration-none text-danger card" href="Home/Show/${pizza.pizzaId}" >
+                                <div class="card bg-dark bg-gradient text-white border-2  rounded-lg" >
+                                    <img class="img-fluid" src = "${pizza.pic}" alt = "${pizza.nome}" />
+                                    <h3 class="py-1 text-danger" > ${pizza.nome}</h3>
+                                    <span class="py-1" > ${pizza.category.name}</span>
+                                    <span class="py-1" > Price : ${pizza.price}$ </span>
+                                    <p class="px-2" > Descrizione: <small>${pizza.description}</small></p >
+                                        <ul>
+                                        ${ingredienti}
+                                    </ul>
+                                </div>
+                                </a>
+                            </div>`
                     })
                 } else {
-                    cardActor.innerHTML = "<h1>non ci sono pizze</h1>"
+                    cardPizza.innerHTML = "<h1>non ci sono pizze</h1>"
                 }
             })
             .catch(function (error) {

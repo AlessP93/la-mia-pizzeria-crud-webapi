@@ -10,7 +10,7 @@ namespace la_mia_pizzeria.Controllers.api
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PizzaController : Controller
+    public class PizzaController : ControllerBase
     {
         // GET: /<controller>/
 
