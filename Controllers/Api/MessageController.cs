@@ -25,8 +25,6 @@ namespace la_mia_pizzeria.Controllers.Api
 
     }
 
-
-
     //from body - differenze con altri dati e chiamate
     //validation: possiamo entrare nella action?
     //dettagli tra {} - [] nelle pattern matching delle rotte
