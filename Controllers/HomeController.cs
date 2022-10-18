@@ -18,6 +18,11 @@ namespace la_mia_pizzeria.Controllers
             return View();
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         //public IActionResult Details(int id)
         //{
         //    return View();

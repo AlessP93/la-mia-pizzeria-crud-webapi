@@ -32,7 +32,7 @@
 <script type="text/javascript">
 
     function InviaMessaggio(e) {
-        //blocco invio calssico form
+        //blocco invio classico form
         e.preventDefault();
         axios.post("/api/message/send", {
             email: document.querySelector('#contact-email').value,
