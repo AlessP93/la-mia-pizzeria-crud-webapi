@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using la_mia_pizzeria.Models;
 //using la_mia_pizzeria.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Web.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -56,10 +57,10 @@ namespace la_mia_pizzeria.Controllers.api
         {
             return UnprocessableEntity(ModelState);
         }
-        using (PizzeriaContext ctx = new PizzeriaContext())
+        using (PizzeriaContext _ctx = new PizzeriaContext())
         {
             // cerchiamo il dato
-            Pizza pizzaDaModificare = ctx.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            Pizza pizzaDaModificare = _ctx.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
             if (pizzaDaModificare != null)
             {
                 // ... aggiorniamo il nostro dato a DB
@@ -73,8 +74,25 @@ namespace la_mia_pizzeria.Controllers.api
         }
     }
 
-    IActionResult Ok(Pizza pizzaDaModificare)
+ 
+    // METODO DELETE
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
     {
-        throw new NotImplementedException();
+        using (PizzeriaContext _ctx = new PizzeriaContext())
+        {
+            Pizza pizzaDaRimuovere = _ctx.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            if (pizzaDaRimuovere != null)
+            {
+                _ctx.Pizzas.Remove(pizzaDaRimuovere);
+                _ctx.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
