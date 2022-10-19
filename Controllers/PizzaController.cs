@@ -112,10 +112,7 @@ namespace la_mia_pizzeria.Controllers
 
                 return View(pizzeCategories);
             }
-			//PizzeriaContext db = new PizzeriaContext();
-			//Pizzas pizza = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
-   //         return View(pizza);
             
 		}
 		
@@ -141,15 +138,7 @@ namespace la_mia_pizzeria.Controllers
 
                 return RedirectToAction("Index");
             }
-            //PizzeriaContext db = new PizzeriaContext();
-            //         Pizzas pizza = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
-            //         pizza.Nome = formData.Nome;
-            //pizza.Description = formData.Description;
-            //pizza.Pic = formData.Pic;
-            //pizza.Price = formData.Price;
-
-            //db.SaveChanges();
            
 		}
 
@@ -175,19 +164,7 @@ namespace la_mia_pizzeria.Controllers
                     return NotFound();
                 }
             }
-            //         PizzeriaContext db = new PizzeriaContext();
-            //         Pizzas pizza = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
-            //if (pizza == null)
-            //{
-            //	return NotFound();
-            //}
-            //else
-            //{
-            //	db.Pizzas.Remove(pizza);
-            //	db.SaveChanges();
-            //}
-            //         return RedirectToAction("Index");
         }
 	}
 }

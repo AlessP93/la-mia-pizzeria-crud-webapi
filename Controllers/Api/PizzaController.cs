@@ -46,4 +46,35 @@ namespace la_mia_pizzeria.Controllers.api
             return Ok(pizza);
         }
     }
+
+    // METODO PUT
+
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, [FromBody] Pizza model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return UnprocessableEntity(ModelState);
+        }
+        using (PizzeriaContext ctx = new PizzeriaContext())
+        {
+            // cerchiamo il dato
+            Pizza pizzaDaModificare = ctx.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            if (pizzaDaModificare != null)
+            {
+                // ... aggiorniamo il nostro dato a DB
+                return Ok(pizzaDaModificare);
+            }
+            else
+            {
+                // se non è stato trovato resituiamo che non esiste
+                return NotFound();
+            }
+        }
+    }
+
+    IActionResult Ok(Pizza pizzaDaModificare)
+    {
+        throw new NotImplementedException();
+    }
 }
